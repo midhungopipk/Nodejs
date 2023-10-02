@@ -10,7 +10,9 @@ const adminData = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public'))); //will make the files in public folder globally available
+
 app.use('/admin', adminData.routes);
 
 app.use(shopRouter);
