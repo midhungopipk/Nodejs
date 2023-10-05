@@ -1,23 +1,24 @@
-const bodyParser = require('body-parser');
-const express = require('express');
 const path = require('path');
+
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const errorController = require('./controllers/error');
+
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', 'views'); //This is the default anyway
+app.set('views', 'views');
 
-const adminRouter = require('./routes/admin');
-const shopRouter = require('./routes/shop');
-const errorController = require('./controllers/error');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(path.join(__dirname, 'public'))); //will make the files in public folder globally available
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
-app.use('/admin', adminRouter);
-
-app.use(shopRouter);
-
-app.use(errorController.get404Error);
+app.use(errorController.get404);
 
 app.listen(3000);
