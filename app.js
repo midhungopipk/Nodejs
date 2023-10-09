@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 
-const db = require('./util/database');
+const db = require('./util/database'); //import pool from database.js
 
 const app = express();
 
