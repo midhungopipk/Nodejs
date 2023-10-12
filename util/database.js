@@ -11,7 +11,7 @@
 
 //when using sequelize to everything above will done behind the scenes
 
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('node-complete', 'root', 'softwareassociates', {
 	dialect: 'mysql',
