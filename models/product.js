@@ -1,56 +1,25 @@
-// const Cart = require('../models/cart');
-// const db = require('../util/database');
+const mongoConnect = require('../util/database');
 
-// module.exports = class Product {
-// 	constructor(id, title, imageUrl, description, price) {
-// 		this.id = id;
-// 		this.title = title;
-// 		this.imageUrl = imageUrl;
-// 		this.description = description;
-// 		this.price = price;
-// 	}
+class Product {
+	constructor(title, price, description, imageUrl) {
+		this.title = title;
+		this.price = price;
+		this.description = description;
+		this.imageUrl = imageUrl;
+	}
 
-// 	save() {
-// 		return db.execute(
-// 			'INSERT INTO products (title,price,imageUrl,description) VALUES (?,?,?,?)',
-// 			[this.title, this.price, this.imageUrl, this.description],
-// 		);
-// 	}
+	save() {
+		const db = mongoConnect.getDb();
 
-// 	static delete(id) {}
-
-// 	static fetchAll() {
-// 		return db.execute('SELECT * FROM products');
-// 	}
-
-// 	static findById(id) {
-// 		return db.execute(`SELECT * FROM products WHERE products.id = ?`, [id]);
-// 	}
-// };
-
-const Sequelize = require('sequelize');
-
-const sequelize = require('../util/database');
-const Product = sequelize.define('product', {
-	id: {
-		type: Sequelize.INTEGER,
-		autoIncrement: true,
-		allowNull: false,
-		primaryKey: true,
-	},
-	title: Sequelize.STRING,
-	price: {
-		type: Sequelize.DOUBLE,
-		allowNull: false,
-	},
-	imageUrl: {
-		type: Sequelize.TEXT,
-		allowNull: false,
-	},
-	description: {
-		type: Sequelize.STRING,
-		allowNull: false,
-	},
-});
+		db.collection('products')
+			.insertOne(this)
+			.then((result) => {
+				console.log(result);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+}
 
 module.exports = Product;

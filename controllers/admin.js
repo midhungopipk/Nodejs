@@ -61,20 +61,6 @@ exports.postAddProduct = (req, res, next) => {
 	const imageUrl = req.body.imageUrl;
 	const price = req.body.price;
 	const description = req.body.description;
-	//adding product to table using sequalize
-	Product.create({
-		title: title,
-		price: price,
-		imageUrl: imageUrl,
-		description: description,
-		userId: req.user.id, //we have made a relation check app.js
-	})
-		.then((result) => {
-			res.redirect('/');
-		})
-		.catch((err) => {
-			console.log(err);
-		});
 };
 
 exports.getProducts = (req, res, next) => {
