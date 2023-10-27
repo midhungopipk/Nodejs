@@ -21,12 +21,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
 	User.findById('652d38e43116e557289c9845')
 		.then((user) => {
-			req.user = user;
+			req.user = new User(user.username, user.email, user.cart, user._id);
+			next();
 		})
 		.catch((err) => {
 			console.log(err);
 		});
-	next();
 });
 
 app.use('/admin', adminRoutes);
@@ -34,5 +34,6 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 mongodb.mongoConnect(() => {
+	//connecting to mongo db after then listener is created
 	app.listen(3000);
 });
